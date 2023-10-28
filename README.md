@@ -153,7 +153,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Joel Diaz - [@your_twitter](https://twitter.com/your_username) - joeldiaz2000@hotmail.com
+Joel Diaz - [@joeldiazkurt](https://twitter.com/joeldiazkurt) - joeldiaz2000@hotmail.com
 
 Project Link: [https://github.com/joKid21/blackjack](https://github.com/joKid21/blackjack)
 
