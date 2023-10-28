@@ -36,7 +36,7 @@ python blackjack game
 <br />
 <div align="center">
   <a href="https://github.com/joKid21/blackjack">
-    <img src="Logo/black jack logo.png" alt="Logo" width="80" height="80">
+    <img src="Logo/black jack logo.png" alt="Logo" width="265" height="177.5">
   </a>
 
   <h3 align="center">BlackJack</h3>
