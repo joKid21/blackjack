@@ -88,7 +88,7 @@ This project is to further my knowledge in python, learn more complex way to cod
 
 add-ons/plugins acknowledgements
 
-* [![pick][pick]][pick-url]
+* PICK[![pick][pick]][pick-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
