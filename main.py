@@ -10,6 +10,7 @@ Cards={
 }
 
 listofcards=[]
+storedAvalue= 0
 
 def deck():
     cardcolor=""
@@ -41,6 +42,8 @@ def hit():
     return hit_card1
 
 def calpoint(deck, who):
+    skip="\n"
+    global storedAvalue
     pdeck=str(deck)
     cards_split=pdeck.split(" ")
     b=0
@@ -54,6 +57,7 @@ def calpoint(deck, who):
             b+=int(i)
         storedval=b+val
     if len(deck) <= 2:
+        storedAvalue=0
         if "A" in stored_letter and "K" in stored_letter:
             return 21
         if "A" in stored_letter and "Q" in stored_letter:
@@ -64,39 +68,45 @@ def calpoint(deck, who):
             return 21
     if who == "player":
         types=[]
-        if "AA" in stored_letter:
-            val+=12
-        else:
-            global storedAvalue
-            storedAvalue= -1
-            if storedAvalue < 1:
-                storedAvalue = 0
-            for i in stored_letter:
-                if i == "K" or i == "Q" or i == "J":
-                    val+=10
-                if i == "A" and len(deck) <= 2:
-                    while True:
-                        A=input("do u want your A to be a 11 or 1?: ")
-                        if A == "11":
-                            val+=11
-                            storedAvalue=11
-                            break
-                        elif A == "1":
-                            val+=1
-                            storedAvalue=1
-                            break
-                        else:
-                            print ("Invalid")
-                elif i == "A" and len(deck) >= 2:
-                    types.append(i)
-                    if storedAvalue > 0:
-                        val+=(storedAvalue+1)
+        if len(stored_letter) == 2:
+            if stored_letter[0] == "A" and stored_letter[1] == "A":
+                val+=12
+        elif len(stored_letter) >= 3:
+            if stored_letter[0] == "A" and stored_letter[1] == "A" and stored_letter[2] == "A":
+                val+=13
+        elif len(stored_letter) >= 4:
+            if stored_letter[0] == "A" and stored_letter[1] == "A" and stored_letter[2] == "A" and stored_letter[3] == "A":
+                val+=14
+        for i in stored_letter:
+            if i == "K" or i == "Q" or i == "J":
+                val+=10
+            if i == "A" and len(deck) == 2:
+                while True:
+                    printdeck=str(deck)
+                    title="current deck= "+printdeck+skip+"do u want your A to be a 11 or 1?: "
+                    table = ["[ 1 ]", "[ 11 ]"]
+                    table, index = pick.pick(table, title, indicator='=>', default_index=0)
+                    print (table)
+                    if table == "[ 11 ]":
+                        val+=11
+                        storedAvalue=11
+                        break
+                    elif table == "[ 1 ]":
+                        val+=1
+                        storedAvalue=1
+                        break
+                    else:
+                        print ("Invalid")
+            if i == "A" and len(deck) > 2:
+                types.append(i)
+                if storedAvalue > 0:
+                    val+=(storedAvalue+1)
             a = dict(Counter(types))
             if "A" in a:
                 if a["A"]== 2:
-                    val+=(storedAvalue+2)
-
-
+                    val+=(storedAvalue+1)
+                if a["A"]== 1:
+                    val+=1
     if who == "dealer":
         if stored_letter == "AA":
             val+=12
