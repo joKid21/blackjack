@@ -160,6 +160,8 @@ Project Link: [https://github.com/joKid21/blackjack](https://github.com/joKid21/
 Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
 
 * [Choose an Open Source License](https://choosealicense.com)
+* [w3schools](https://www.w3schools.com/python/default.asp)
+* [codecademy](https://www.codecademy.com/catalog/language/python)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -178,7 +180,7 @@ Use this space to list resources you find helpful and would like to give credit 
 [license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
 [license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://www.linkedin.com/in/joel-diaz-42545226b/
+[linkedin-url]: https://www.linkedin.com/in/joel-diaz-kurt/
 [product-screenshot]: images/screenshot.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
