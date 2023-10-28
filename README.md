@@ -110,7 +110,7 @@ pip3 install pick
 
 1. go to where you downloaded main.py
 2. open cmd
-2. enter: ```sh python3 main.py ```
+2. enter: ``` python3 main.py ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
