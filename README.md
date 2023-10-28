@@ -203,5 +203,5 @@ Use this space to list resources you find helpful and would like to give credit 
 [Bootstrap-url]: https://getbootstrap.com
 [JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
 [JQuery-url]: https://jquery.com 
-[pick]: https://img.shields.io/pypi/:dd/:pick
+[pick]: https://pypi-camo.global.ssl.fastly.net/375559051e04e33a4ea005bb62bcfbd5cd06c96c/68747470733a2f2f696d672e736869656c64732e696f2f707970692f762f7069636b2e737667
 [pick-url]: https://pypi.org/project/pick/
