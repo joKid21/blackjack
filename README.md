@@ -147,6 +147,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 ## Contact
 
 Joel Diaz - [@joeldiazkurt](https://twitter.com/joeldiazkurt) - joeldiaz2000@hotmail.com
+
 Gabrielangelo Jansen - [@MRaaKz_1](https://twitter.com/MRaaKz_1) - jansenjustin05@hotmail.com
 
 Project Link: [https://github.com/joKid21/blackjack](https://github.com/joKid21/blackjack)
