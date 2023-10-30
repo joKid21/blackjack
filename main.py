@@ -22,7 +22,6 @@ def deck():
             listofcards.append(f'{i} {b} {cardcolor}')
 
 def playerscard():
-    deck()
     player_card1=random.choice(listofcards)
     listofcards.remove(player_card1)
     player_card2=random.choice(listofcards)
@@ -136,6 +135,7 @@ def wait(x):
     time.sleep(x)
 
 def game():
+    deck()
     print("Dealer is shuffeling")
 #    wait(2)
     BlackJack=False
