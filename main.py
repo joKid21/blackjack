@@ -136,9 +136,10 @@ def wait(x):
 
 def game():
     deck()
-    print("Dealer is shuffeling")
-#    wait(2)
-    BlackJack=False
+    skip="\n"
+    title="Dealer is Shufling"+skip+"Player cards are:"+'[ *HIDDEN* ]'+'[ *HIDDEN* ]'+skip+"Dealer cards are: "+'[ *HIDDEN* ]'+'[ *HIDDEN* ]'
+    print(title)
+    wait(2)
     playercurrentcard=playerscard()
     dealercurrentcard=dealerscard()
     playersdeck=" "
@@ -146,29 +147,15 @@ def game():
         i=("[ ")+i+(" ] ")
         playersdeck= (playersdeck + i)
     dealersdeck=("[ ")+str(dealercurrentcard[0])+(" ] ")
-    print(f"Player cards are:", playersdeck)
-    #wait(2)
-    print(f"Dealer cards are:", dealersdeck, '[ *HIDDEN* ]')
-
     playercurrent_points=(playerpoint(playercurrentcard))
     dealercurrent_points=(dealerpoint(dealercurrentcard))
-
-    if playercurrent_points == 21: #players points is calculated to be stored in background
-        BlackJack=True
-    if BlackJack:
-        print(f"You have BlackJack")
-    #wait(5)
-    if dealercurrent_points == 21:
-        pass
-    #dealerpoint() #dealer points is also calculated to be stored in the background
-    skip="\n"
     playerprintpoints=str(playercurrent_points)
-    title="Player cards are:" + playersdeck + playerprintpoints + skip + "Dealer cards are: " + dealersdeck + '[ *HIDDEN* ]'
-    table = ["[HIT]", "[STAND]"]
-    table, index = pick.pick(table, title, indicator='=>', default_index=0)
-    print(table)
     bust=False
     while not bust:
+        title="Player's turn"+skip+"Player cards are:" + playersdeck + playerprintpoints + skip + "Dealer cards are: " + dealersdeck + '[ *HIDDEN* ]'
+        table = ["[HIT]", "[STAND]"]
+        table, index = pick.pick(table, title, indicator='=>', default_index=0)
+        print(table)
         if table=="[HIT]":
             hit1=hit()
             playercurrentcard=playercurrentcard+(hit1,)
@@ -182,10 +169,9 @@ def game():
             for m in dealercurrentcard:
                 m=("[ ")+m+(" ] ")
                 dealers_deck= (dealers_deck + m)
-
         if table=="[STAND]":
             cls()
-            title="Player cards are:" + playersdeck + skip + "Dealer cards are: " + dealersdeck + '[ *HIDDEN* ]' + skip + "PLAYER CHOOSE STAND"
+            title="Player choose stand"+skip+"Player cards are:" + playersdeck + skip + "Dealer cards are: " + dealersdeck + '[ *HIDDEN* ]'
             print(title)
             wait(2)
             playercurrentcard=playercurrentcard
@@ -200,39 +186,45 @@ def game():
                 m=("[ ")+m+(" ] ")
                 dealers_deck= (dealers_deck + m)
 
-            if playercurrent_points >=22:
-                title="Player cards are:" + playersdeck + skip + "Dealer cards are: " + dealers_deck  + skip + "Player BUST"    #add card   #add points
-                print(title)
-                bust=True
-                break
 
-            elif playercurrent_points <= 21:
-                title="Player cards are:" + playersdeck + skip + "Dealer cards are: " + dealersdeck + '[ *HIDDEN* ]'
-                if table == "[HIT]":
-                    table = ["[HIT]", "[STAND]"]
-                    table, index = pick.pick(table, title, indicator='=>', default_index=0)
-                print(title)
-                break
-            
-            elif playercurrent_points == 21:
-                title="Player cards are:" + playersdeck + skip + "Dealer cards are: " + dealersdeck + '[ *HIDDEN* ]' + skip + "You have BlackJack"
-                wait(2)
-                title="Player cards are:" + playersdeck + skip + "Dealer cards are: " + dealersdeck + '[ *HIDDEN* ]' + skip + "You have BlackJack" + skip + "Dealers turn"
-                wait(2)
-                title="Player cards are:" + playersdeck + skip + "Dealer cards are: " + dealers_deck + skip + "You have BlackJack" + skip + "Dealers turn"
-                if dealercurrent_points <= 17:
-                    newcard=hit()
-                    dealercurrentcard=dealercurrentcard+(newcard,)
-                    
-                elif dealercurrentcard == 21:
-                    title="Player cards are:" + playersdeck + skip + "Dealer cards are: " + dealers_deck + skip + "PUSH"
+        if playercurrent_points >=22:
+            title="Player cards are:" + playersdeck + skip + "Dealer cards are: " + dealers_deck  + skip + "Player BUST"    #add card   #add points
+            print(title)
+            bust=True
+            break
+
+        elif playercurrent_points <= 21:
+            title="Player cards are:" + playersdeck + skip + "Dealer cards are: " + dealersdeck + '[ *HIDDEN* ]'
+            if table == "[HIT]":
+                table = ["[HIT]", "[STAND]"]
+                table, index = pick.pick(table, title, indicator='=>', default_index=0)
+            print(title)
+            cls()
+            title="Player cards are:" + playersdeck + skip + "Dealer cards are: " + dealersdeck + '[ *HIDDEN* ]' + skip + "Dealers turn"
+            print(title)
+            cls()
+            wait(2)
+            title="Player cards are:" + playersdeck + skip + "Dealer cards are: " + dealers_deck + skip + "Dealers turn"
+            print(title)
+            break
+        
+        elif playercurrent_points == 21:
+            title="Player cards are:" + playersdeck + skip + "Dealer cards are: " + dealersdeck + '[ *HIDDEN* ]' + skip + "You have BlackJack"
+            wait(2)
+            title="Player cards are:" + playersdeck + skip + "Dealer cards are: " + dealersdeck + '[ *HIDDEN* ]' + skip + "You have BlackJack" + skip + "Dealers turn"
+            wait(2)
+            title="Player cards are:" + playersdeck + skip + "Dealer cards are: " + dealers_deck + skip + "You have BlackJack" + skip + "Dealers turn"
+            if dealercurrent_points <= 17:
+                newcard=hit()
+                dealercurrentcard=dealercurrentcard+(newcard,) 
+            elif dealercurrentcard == 21:
+                title="Player cards are:" + playersdeck + skip + "Dealer cards are: " + dealers_deck + skip + "PUSH"
 #                table = ["[NEW GAME]", "[EXIT]"]
 #                table, index = pick.pick(table, title, indicator='=>', default_index=0)
-                print(f"You have BlackJack")
-                break
-            if dealercurrent_points == playercurrent_points:
-                title="Player cards are:" + playersdeck + skip + "Dealer cards are: " + dealers_deck + skip + "PUSH"
-
+            print(f"You have BlackJack")
+            break
+        if dealercurrent_points == playercurrent_points:
+            title="Player cards are:" + playersdeck + skip + "Dealer cards are: " + dealers_deck + skip + "PUSH"
     print(playercurrent_points)
                  
                 
