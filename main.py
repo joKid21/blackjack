@@ -167,10 +167,10 @@ def game():
     table = ["[HIT]", "[STAND]"]
     table, index = pick.pick(table, title, indicator='=>', default_index=0)
     print(table)
-    hit1=hit()
     bust=False
     while not bust:
         if table=="[HIT]":
+            hit1=hit()
             playercurrentcard=playercurrentcard+(hit1,)
             playersdeck=""
             for b in playercurrentcard:
@@ -178,7 +178,23 @@ def game():
                 playersdeck= (playersdeck + b)
                 cls()
             playercurrent_points=(playerpoint(playercurrentcard))
-            
+            dealers_deck=""
+            for m in dealercurrentcard:
+                m=("[ ")+m+(" ] ")
+                dealers_deck= (dealers_deck + m)
+
+        if table=="[STAND]":
+            cls()
+            title="Player cards are:" + playersdeck + skip + "Dealer cards are: " + dealersdeck + '[ *HIDDEN* ]' + skip + "PLAYER CHOOSE STAND"
+            print(title)
+            wait(2)
+            playercurrentcard=playercurrentcard
+            playersdeck=""
+            for b in playercurrentcard:
+                b=(" [ ")+(b)+(" ]")
+                playersdeck= (playersdeck + b)
+                cls()
+            playercurrent_points=(playerpoint(playercurrentcard))
             dealers_deck=""
             for m in dealercurrentcard:
                 m=("[ ")+m+(" ] ")
@@ -192,8 +208,9 @@ def game():
 
             elif playercurrent_points <= 21:
                 title="Player cards are:" + playersdeck + skip + "Dealer cards are: " + dealersdeck + '[ *HIDDEN* ]'
-                table = ["[HIT]", "[STAND]"]
-                table, index = pick.pick(table, title, indicator='=>', default_index=0)
+                if table == "[HIT]":
+                    table = ["[HIT]", "[STAND]"]
+                    table, index = pick.pick(table, title, indicator='=>', default_index=0)
                 print(title)
                 break
             
