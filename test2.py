@@ -1,6 +1,7 @@
 import time
 import pick
 import random
+from collections import Counter
 
 Cards={ 
     "suit":["\u2660", "\u2665", "\u2663", "\u2666"],
@@ -9,6 +10,7 @@ Cards={
 }
 
 listofcards=[]
+storedAvalue= 0
 
 def deck():
     cardcolor=""
@@ -27,41 +29,115 @@ def playerscard():
     listofcards.remove(player_card2)
     return player_card1, player_card2
 
-def dealercard():
-    deck()
+def dealerscard():
     dlr_card1=random.choice(listofcards)
     listofcards.remove(dlr_card1)
     dlr_card2=random.choice(listofcards)
     listofcards.remove(dlr_card2)
     return dlr_card1, dlr_card2
 
+def hit():
+    hit_card1=random.choice(listofcards)
+    listofcards.remove(hit_card1)
+    return hit_card1
 
-def calpoint(deck):
+def stand(playersdeck, skip, dealersdeck):
+    cls()
+    title="Player cards are:" + playersdeck + skip + "Dealer cards are: " + dealersdeck + '[ *HIDDEN* ]' + skip + "PLAYER CHOOSE STAND"
+    print(title)
+
+
+    
+    
+
+def calpoint(deck, who):
+    skip="\n"
+    global storedAvalue
+    pdeck=str(deck)
+    cards_split=pdeck.split(" ")
     b=0
     val=0
-    if deck[0] == 10 or deck[1] == 10:
-        b=10
-    for i in deck:               #splits the deck letter by letter check 1 by 1
+    stored_letter=[]
+    for i in cards_split:               #splits the deck letter by letter check 1 by 1
         if i.isalpha():
-            if i == "A":
-                val+=10
-            if i == "J":
-                val+=10
-            if i == "Q":
-                val+=10
-            if i == "K":
-                val+=10
-
+            if i == "K" or i == "Q" or i == "J" or i == "A":
+                stored_letter.append(i)
         if i.isdigit():
             b+=int(i)
-    return b+val
+        storedval=b+val
+    if len(deck) <= 2:
+        storedAvalue=0
+        if "A" in stored_letter and "K" in stored_letter:
+            return 21
+        if "A" in stored_letter and "Q" in stored_letter:
+            return 21
+        if "A" in stored_letter and "J" in stored_letter:
+            return 21
+        if "A" in stored_letter and b==10:
+            return 21
+    if who == "player":
+        types=[]
+        if len(stored_letter) == 2:
+            if stored_letter[0] == "A" and stored_letter[1] == "A":
+                val+=12
+        elif len(stored_letter) >= 3:
+            if stored_letter[0] == "A" and stored_letter[1] == "A" and stored_letter[2] == "A":
+                val+=13
+        elif len(stored_letter) >= 4:
+            if stored_letter[0] == "A" and stored_letter[1] == "A" and stored_letter[2] == "A" and stored_letter[3] == "A":
+                val+=14
+        for i in stored_letter:
+            if i == "K" or i == "Q" or i == "J":
+                val+=10
+            if i == "A" and len(deck) == 2:
+                while True:
+                    printdeck=str(deck)
+                    title="current deck= "+printdeck+skip+"do u want your A to be a 11 or 1?: "
+                    table = ["[ 1 ]", "[ 11 ]"]
+                    table, index = pick.pick(table, title, indicator='=>', default_index=0)
+                    print (table)
+                    if table == "[ 11 ]":
+                        val+=11
+                        storedAvalue=11
+                        break
+                    elif table == "[ 1 ]":
+                        val+=1
+                        storedAvalue=1
+                        break
+                    else:
+                        print ("Invalid")
+            if i == "A" and len(deck) > 2:
+                types.append(i)
+                if storedAvalue > 0:
+                    val+=(storedAvalue+1)
+            a = dict(Counter(types))
+            if "A" in a:
+                if a["A"]== 2:
+                    val+=(storedAvalue+1)
+                if a["A"]== 1:
+                    val+=1
+    if who == "dealer":
+        if stored_letter == "AA":
+            val+=12
+        else:
+            for i in stored_letter:
+                if i == "K" or i == "Q" or i == "J":
+                    val+=10
+                if i == "A":
+                    val+=11   
+    points=val+storedval
+    return points
 
 def playerpoint(deck):
-    currentpoints=calpoint(deck)
+    who="player"
+    currentpoints=calpoint(deck,who)
+    return currentpoints
+
+def dealerpoint(deck):
+    who="dealer"
+    currentpoints=calpoint(deck,who)
     return currentpoints
             
-
-
 def cls():
     print("\033c")
 
@@ -71,55 +147,136 @@ def wait(x):
 def game():
     print("Dealer is shuffeling")
 #    wait(2)
+    BlackJack=False
     playercurrentcard=playerscard()
-    dealercurrentcard=dealercard()
+    dealercurrentcard=dealerscard()
     playersdeck=" "
     for i in playercurrentcard:
-        i=("| ")+i+(" | ")
+        i=("[ ")+i+(" ] ")
         playersdeck= (playersdeck + i)
-    dealersdeck=("| ")+str(dealercurrentcard[0])+(" | ")
+    dealersdeck=("[ ")+str(dealercurrentcard[0])+(" ] ")
     print(f"Player cards are:", playersdeck)
- #   wait(2)
-    print(f"Dealer cards are:", dealersdeck, '[         ]')
-    
-    print (playerpoint(playersdeck)) #players points is calculated to be stored in background
- #   wait(5)
-    
+    #wait(2)
+    print(f"Dealer cards are:", dealersdeck, '[ *HIDDEN* ]')
+
+    playercurrent_points=(playerpoint(playercurrentcard))
+    dealercurrent_points=(dealerpoint(dealercurrentcard))
+
+    if playercurrent_points == 21: #players points is calculated to be stored in background
+        BlackJack=True
+    if BlackJack:
+        print(f"You have BlackJack")
+    #wait(5)
+    if dealercurrent_points == 21:
+        pass
     #dealerpoint() #dealer points is also calculated to be stored in the background
+    skip="\n"
+    playerprintpoints=str(playercurrent_points)
+
+    if playercurrent_points == 21:
+        print ("Blackjack")
     
-#    table = ["[HIT]", "[STAND]"]
-#    table, index = pick.pick(table, "Choose between", indicator='=>', default_index=0)
-#    print(table)
-#    if table=="[HIT]":
-        #add card
-        #add points
+    elif playercurrent_points > 21:
+        print ("bust") 
+
+    else:
+        title="Player cards are:" + playersdeck + playerprintpoints + skip + "Dealer cards are: " + dealersdeck + '[ *HIDDEN* ]'
+        table = ["[HIT]", "[STAND]"]
+        table, index = pick.pick(table, title, indicator='=>', default_index=0)
+        print(table)
+        hit1=hit()
+        bust=False
+        while not bust:
+            if table=="[HIT]":
+                playercurrentcard=playercurrentcard+(hit1,)
+                playersdeck=""
+                for b in playercurrentcard:
+                    b=(" [ ")+(b)+(" ]")
+                    playersdeck= (playersdeck + b)
+                    cls()
+                playercurrent_points=(playerpoint(playercurrentcard))
+                dealers_deck=""
+                for m in dealercurrentcard:
+                    m=("[ ")+m+(" ] ")
+                    dealers_deck= (dealers_deck + m)
+
+            elif table=="[STAND]":
+                stand(playersdeck, skip, dealersdeck)
+                wait(2)
+
+                if playercurrent_points >=22:
+                    title="Player cards are:" + playersdeck + skip + "Dealer cards are: " + dealers_deck  + skip + "Player BUST"    #add card   #add points
+                    print(title)
+                    bust=True
+                    break
+
+                elif playercurrent_points <= 21:
+                    title="Player cards are:" + playersdeck + skip + "Dealer cards are: " + dealersdeck + '[ *HIDDEN* ]'
+                    if table=="[HIT]":
+                        table = ["[HIT]", "[STAND]"]
+                        table, index = pick.pick(table, title, indicator='=>', default_index=0)
+                    print(title)
+                    break
+        
+
+                
+                elif playercurrent_points == 21:
+                    title="Player cards are:" + playersdeck + skip + "Dealer cards are: " + dealersdeck + '[ *HIDDEN* ]' + skip + "You have BlackJack"
+                    wait(2)
+                    title="Player cards are:" + playersdeck + skip + "Dealer cards are: " + dealersdeck + '[ *HIDDEN* ]' + skip + "You have BlackJack" + skip + "Dealers turn"
+                    wait(2)
+                    title="Player cards are:" + playersdeck + skip + "Dealer cards are: " + dealers_deck + skip + "You have BlackJack" + skip + "Dealers turn"
+                    if dealercurrent_points <= 17:
+                        newcard=hit()
+                        dealercurrentcard=dealercurrentcard+(newcard,)
+                    elif dealercurrentcard == 21:
+                        title="Player cards are:" + playersdeck + skip + "Dealer cards are: " + dealers_deck + skip + "PUSH"
+    #                table = ["[NEW GAME]", "[EXIT]"]
+    #                table, index = pick.pick(table, title, indicator='=>', default_index=0)
+                    print(f"You have BlackJack")
+                    break
+                if dealercurrent_points == playercurrent_points:
+                    title="Player cards are:" + playersdeck + skip + "Dealer cards are: " + dealers_deck + skip + "PUSH"
+
+        print(playercurrent_points)
+                 
+                
         #check if points are above or under 21
         #print bust or ask again
         #pass
 
-
-
-
-options = ["[START]", "[OPTIONS]", "[EXIT]"]
-option, index = pick.pick(options, "Welcome to BlackJack", indicator='=>', default_index=0)
-#main program
-if __name__ == "__main__":
-    cls()
-    print ("Welcome to BlackJack")
-    print(option)
-    if option[0]:
+playering=True
+while playering:
+    Title="Welcome to BlackJack"
+    skipline="\n"
+    options = ["[START]", "[OPTIONS]", "[EXIT]"]
+    option, index = pick.pick(options, Title, indicator='=>', default_index=0)
+    #main program
+    if __name__ == "__main__":
         cls()
-        countdown=3
-        while countdown != 0:
-            print("game starting:", countdown)
-            wait(1)
-            countdown -=1
+        print ("Welcome to BlackJack")
+        print(option)
+        if option=="[START]":
             cls()
-        game()
-    elif option[1]:
-        pass
-    else:
-        pass
-
+            countdown=3
+            while countdown != 0:
+                print("game starting:", countdown)
+                wait(1)
+                countdown -=1
+                cls()
+            game()
+            break
+        elif option=="[OPTIONS]":
+            cls()
+            Title="Welcome to BlackJack/OPTIONS"
+            options = ["[DECK SIZE]", "[option2]", "[option3]", "[BACK]"]
+            option, index = pick.pick(options, Title, indicator='=>', default_index=0)
+            print("this where the game options are")
+            wait(2)
+        elif option=="[EXIT]":
+            cls()
+            print("GoodBye!")
+            break
 
             
+
