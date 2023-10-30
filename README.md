@@ -164,6 +164,7 @@ Use this space to list resources you find helpful and would like to give credit 
 * [Choose an Open Source License](https://choosealicense.com)
 * [w3schools](https://www.w3schools.com/python/default.asp)
 * [codecademy](https://www.codecademy.com/catalog/language/python)
+* [Python instatute](https://pythoninstitute.org/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
